@@ -1,0 +1,79 @@
+{
+  "name": "kairos",
+  "displayName": "Kairos – Effort Tracker",
+  "description": "Estimates task effort from your real git history. Scans merged branches, calculates working-day durations, and gives hour estimates for new tasks.",
+  "version": "0.0.1",
+  "publisher": "your-publisher-id",
+  "license": "MIT",
+  "icon": "icon.png",
+  "keywords": ["git", "effort", "estimation", "time-tracking", "productivity", "developer-tools"],
+  "galleryBanner": { "color": "#1e1e2e", "theme": "dark" },
+  "engines": { "vscode": "^1.74.0" },
+  "categories": ["Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "kairos.scanHistory",
+        "title": "Kairos: Scan Git History"
+      },
+      {
+        "command": "kairos.showDashboard",
+        "title": "Kairos: Show Dashboard"
+      },
+      {
+        "command": "kairos.estimateTask",
+        "title": "Kairos: Estimate Task Effort"
+      },
+      {
+        "command": "kairos.tagBranch",
+        "title": "Kairos: Tag Current Branch"
+      }
+    ],
+    "configuration": {
+      "title": "Kairos",
+      "properties": {
+        "kairos.mainBranch": {
+          "type": "string",
+          "default": "main",
+          "description": "Name of the main/trunk branch. Auto-detected from remote if this doesn't exist (tries develop, master, main, trunk)."
+        },
+        "kairos.historyFile": {
+          "type": "string",
+          "default": ".vscode/kairos-history.json",
+          "description": "Path to the history file relative to workspace root"
+        },
+        "kairos.hoursPerDay": {
+          "type": "number",
+          "default": 8,
+          "description": "Working hours per day (used to convert working days → hours)"
+        },
+        "kairos.ignoreBranchPrefixes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": ["dependabot/", "release/", "hotfix/"],
+          "description": "Branch prefixes to skip when scanning"
+        },
+        "kairos.authorEmail": {
+          "type": "string",
+          "default": "",
+          "description": "Only track branches where the first commit is by this email. Leave blank to auto-detect from git config user.email."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "typecheck": "tsc --noEmit",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.74.0",
+    "@vscode/vsce": "^3.0.0",
+    "typescript": "^5.0.0"
+  }
+}
